@@ -42,11 +42,11 @@ export function DishForm({ onSave, onCancel, dishDatabase = [] }: DishFormProps)
   };
 
   const handleSave = () => {
-    if (formData.name && formData.before && formData.after) {
+    if (formData.name) {
       onSave({
         name: formData.name,
-        before: parseFloat(formData.before),
-        after: parseFloat(formData.after)
+        before: formData.before ? parseFloat(formData.before) : 0,
+        after: formData.after ? parseFloat(formData.after) : 0
       });
       setFormData({ name: '', before: '', after: '' });
     }
@@ -97,7 +97,7 @@ export function DishForm({ onSave, onCancel, dishDatabase = [] }: DishFormProps)
           type="number"
           value={formData.before}
           onChange={(e) => setFormData({ ...formData, before: e.target.value })}
-          placeholder="Before (g)"
+          placeholder="Before (g) - optional"
           className="flex-1 px-3 py-2 rounded-lg border-2 border-teal-200 text-lg"
           inputMode="decimal"
         />
@@ -105,7 +105,7 @@ export function DishForm({ onSave, onCancel, dishDatabase = [] }: DishFormProps)
           type="number"
           value={formData.after}
           onChange={(e) => setFormData({ ...formData, after: e.target.value })}
-          placeholder="After (g)"
+          placeholder="After (g) - optional"
           className="flex-1 px-3 py-2 rounded-lg border-2 border-teal-200 text-lg"
           inputMode="decimal"
         />
