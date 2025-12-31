@@ -15,6 +15,12 @@ interface Meal {
   dishes: Dish[];
 }
 
+interface DishDBItem {
+  id?: string;
+  name: string;
+  caloriesPer100g: number | null;
+}
+
 interface MealCardProps {
   mealType: string;
   mealData: Meal;
@@ -26,6 +32,7 @@ interface MealCardProps {
   setShowAddDish: (mealType: string | null) => void;
   editingDish: number | null;
   setEditingDish: (dishId: number | null) => void;
+  dishDatabase?: DishDBItem[];
 }
 
 export function MealCard({ 
@@ -38,7 +45,8 @@ export function MealCard({
   showAddDish, 
   setShowAddDish, 
   editingDish, 
-  setEditingDish 
+  setEditingDish,
+  dishDatabase = []
 }: MealCardProps) {
   const mealNames: Record<string, string> = {
     meal1: '🥣 Meal 1',
@@ -81,6 +89,7 @@ export function MealCard({
           <DishForm
             onSave={onAddDish}
             onCancel={() => setShowAddDish(null)}
+            dishDatabase={dishDatabase}
           />
         ) : (
           <button

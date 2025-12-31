@@ -30,7 +30,8 @@ export function DishItem({ dish, isEditing, onEdit, onSave, onDelete, onCancel }
           placeholder="Dish name"
           className="w-full px-3 py-2 rounded-lg border-2 border-teal-200 text-lg"
         />
-        <div className="flex gap-2">
+        {/* Stack on mobile, side-by-side on desktop */}
+        <div className="flex flex-col sm:flex-row gap-2">
           <input
             type="number"
             value={editData.before}

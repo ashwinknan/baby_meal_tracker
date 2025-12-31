@@ -32,8 +32,11 @@ export function DashboardView({
     setLoading(true);
     const historicalData = await getHistoricalData();
     
+    // Sort by date
+    const sortedData = historicalData.sort((a, b) => a.date.localeCompare(b.date));
+    
     // Calculate calories for each dish
-    const dataWithCalories = historicalData.map(day => ({
+    const dataWithCalories = sortedData.map(day => ({
       ...day,
       meals: Object.fromEntries(
         Object.entries(day.meals).map(([mealType, meal]: [string, any]) => [

@@ -13,6 +13,12 @@ interface Meal {
   dishes: Dish[];
 }
 
+interface DishDBItem {
+  id?: string;
+  name: string;
+  caloriesPer100g: number | null;
+}
+
 interface TrackerViewProps {
   meals: Record<string, Meal>;
   onAddDish: (mealType: string, dish: Omit<Dish, 'id'>) => void;
@@ -23,6 +29,7 @@ interface TrackerViewProps {
   setShowAddDish: (mealType: string | null) => void;
   editingDish: number | null;
   setEditingDish: (dishId: number | null) => void;
+  dishDatabase?: DishDBItem[];
 }
 
 export function TrackerView({
@@ -35,6 +42,7 @@ export function TrackerView({
   setShowAddDish,
   editingDish,
   setEditingDish,
+  dishDatabase = []
 }: TrackerViewProps) {
   return (
     <div className="max-w-2xl mx-auto px-4 py-4 space-y-4">
@@ -51,6 +59,7 @@ export function TrackerView({
           setShowAddDish={setShowAddDish}
           editingDish={editingDish}
           setEditingDish={setEditingDish}
+          dishDatabase={dishDatabase}
         />
       ))}
     </div>

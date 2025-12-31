@@ -284,6 +284,7 @@ export default function MealTracker() {
           setShowAddDish={setShowAddDish}
           editingDish={editingDish}
           setEditingDish={setEditingDish}
+          dishDatabase={dishDatabase}
         />
       ) : view === 'dashboard' ? (
         <DashboardView
