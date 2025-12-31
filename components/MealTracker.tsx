@@ -93,7 +93,7 @@ export default function MealTracker() {
 
   const saveMeals = async () => {
     try {
-      await saveMealsForDate(selectedDate, meals as DayMeals);
+      await saveMealsForDate(selectedDate, meals as any as DayMeals);
     } catch (error) {
       console.error('Error saving meals:', error);
     }
