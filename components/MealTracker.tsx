@@ -225,14 +225,14 @@ export default function MealTracker() {
     try {
       const dayData = await getMealsForDate(date);
       if (dayData) {
-        const updatedMeals = { ...dayData };
+        const updatedMeals = { ...dayData } as any;
         updatedMeals[mealType].dishes[dishIndex] = {
           ...updatedMeals[mealType].dishes[dishIndex],
           name: updatedDish.name,
           before: updatedDish.before,
           after: updatedDish.after
         };
-        await saveMealsForDate(date, updatedMeals as any);
+        await saveMealsForDate(date, updatedMeals);
       }
     } catch (error) {
       console.error('Error updating dish:', error);
@@ -243,9 +243,9 @@ export default function MealTracker() {
     try {
       const dayData = await getMealsForDate(date);
       if (dayData) {
-        const updatedMeals = { ...dayData };
+        const updatedMeals = { ...dayData } as any;
         updatedMeals[mealType].dishes.splice(dishIndex, 1);
-        await saveMealsForDate(date, updatedMeals as any);
+        await saveMealsForDate(date, updatedMeals);
       }
     } catch (error) {
       console.error('Error deleting dish:', error);
