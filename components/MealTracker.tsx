@@ -134,6 +134,17 @@ export default function MealTracker() {
     setTimeout(saveMeals, 100);
   };
 
+  const clearMeal = (mealType: string) => {
+    setMeals(prev => ({
+      ...prev,
+      [mealType]: {
+        ...prev[mealType],
+        dishes: []
+      }
+    }));
+    setTimeout(saveMeals, 100);
+  };
+
   const updateMealTime = (mealType: string, time: string) => {
     setMeals(prev => ({
       ...prev,
@@ -210,6 +221,37 @@ export default function MealTracker() {
     }
   };
 
+  const updateDishInHistory = async (date: string, mealType: string, dishIndex: number, updatedDish: any) => {
+    try {
+      const dayData = await getMealsForDate(date);
+      if (dayData) {
+        const updatedMeals = { ...dayData };
+        updatedMeals[mealType].dishes[dishIndex] = {
+          ...updatedMeals[mealType].dishes[dishIndex],
+          name: updatedDish.name,
+          before: updatedDish.before,
+          after: updatedDish.after
+        };
+        await saveMealsForDate(date, updatedMeals as any);
+      }
+    } catch (error) {
+      console.error('Error updating dish:', error);
+    }
+  };
+
+  const deleteDishInHistory = async (date: string, mealType: string, dishIndex: number) => {
+    try {
+      const dayData = await getMealsForDate(date);
+      if (dayData) {
+        const updatedMeals = { ...dayData };
+        updatedMeals[mealType].dishes.splice(dishIndex, 1);
+        await saveMealsForDate(date, updatedMeals as any);
+      }
+    } catch (error) {
+      console.error('Error deleting dish:', error);
+    }
+  };
+
   const todayStats = getTodayStats();
 
   return (
@@ -280,6 +322,7 @@ export default function MealTracker() {
           onUpdateDish={updateDish}
           onDeleteDish={deleteDish}
           onUpdateTime={updateMealTime}
+          onClearMeal={clearMeal}
           showAddDish={showAddDish}
           setShowAddDish={setShowAddDish}
           editingDish={editingDish}
@@ -294,6 +337,8 @@ export default function MealTracker() {
           setEndDate={setEndDate}
           validateDateRange={validateDateRange}
           getHistoricalData={getHistoricalData}
+          onUpdateDishInHistory={updateDishInHistory}
+          onDeleteDishInHistory={deleteDishInHistory}
         />
       ) : (
         <DishDatabaseView

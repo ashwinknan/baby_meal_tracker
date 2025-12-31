@@ -25,6 +25,7 @@ interface TrackerViewProps {
   onUpdateDish: (mealType: string, dishId: number, dish: Partial<Dish>) => void;
   onDeleteDish: (mealType: string, dishId: number) => void;
   onUpdateTime: (mealType: string, time: string) => void;
+  onClearMeal: (mealType: string) => void;
   showAddDish: string | null;
   setShowAddDish: (mealType: string | null) => void;
   editingDish: number | null;
@@ -38,6 +39,7 @@ export function TrackerView({
   onUpdateDish,
   onDeleteDish,
   onUpdateTime,
+  onClearMeal,
   showAddDish,
   setShowAddDish,
   editingDish,
@@ -55,6 +57,7 @@ export function TrackerView({
           onUpdateDish={(dishId, dish) => onUpdateDish(mealType, dishId, dish)}
           onDeleteDish={(dishId) => onDeleteDish(mealType, dishId)}
           onUpdateTime={(time) => onUpdateTime(mealType, time)}
+          onClearMeal={() => onClearMeal(mealType)}
           showAddDish={showAddDish === mealType}
           setShowAddDish={setShowAddDish}
           editingDish={editingDish}

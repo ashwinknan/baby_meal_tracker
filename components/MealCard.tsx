@@ -1,5 +1,5 @@
 import React from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 import { DishItem } from './DishItem';
 import { DishForm } from './DishForm';
 
@@ -28,6 +28,7 @@ interface MealCardProps {
   onUpdateDish: (dishId: number, dish: Partial<Dish>) => void;
   onDeleteDish: (dishId: number) => void;
   onUpdateTime: (time: string) => void;
+  onClearMeal?: () => void;
   showAddDish: boolean;
   setShowAddDish: (mealType: string | null) => void;
   editingDish: number | null;
@@ -42,6 +43,7 @@ export function MealCard({
   onUpdateDish, 
   onDeleteDish, 
   onUpdateTime, 
+  onClearMeal,
   showAddDish, 
   setShowAddDish, 
   editingDish, 
@@ -57,17 +59,34 @@ export function MealCard({
 
   const totalConsumed = mealData.dishes.reduce((sum, dish) => sum + (dish.before - dish.after), 0);
 
+  const handleClearMeal = () => {
+    if (confirm(`Delete all dishes from ${mealNames[mealType]}?`)) {
+      onClearMeal?.();
+    }
+  };
+
   return (
     <div className="bg-white rounded-2xl shadow-md overflow-hidden">
       {/* Meal Header */}
       <div className="bg-gradient-to-r from-teal-500 to-emerald-500 px-4 py-3 flex items-center justify-between">
         <h2 className="text-xl font-bold text-white">{mealNames[mealType]}</h2>
-        <input
-          type="time"
-          value={mealData.time}
-          onChange={(e) => onUpdateTime(e.target.value)}
-          className="px-3 py-1 rounded-lg text-sm font-semibold bg-white text-teal-600 border-0"
-        />
+        <div className="flex items-center gap-2">
+          <input
+            type="time"
+            value={mealData.time}
+            onChange={(e) => onUpdateTime(e.target.value)}
+            className="px-3 py-1 rounded-lg text-sm font-semibold bg-white text-teal-600 border-0"
+          />
+          {mealData.dishes.length > 0 && onClearMeal && (
+            <button
+              onClick={handleClearMeal}
+              className="p-2 rounded-lg bg-white/20 hover:bg-white/30 transition text-white"
+              title="Clear all dishes"
+            >
+              <Trash2 size={18} />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Dishes */}

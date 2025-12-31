@@ -10,6 +10,8 @@ interface DashboardViewProps {
   setEndDate: (date: string) => void;
   validateDateRange: (start: string, end: string) => boolean;
   getHistoricalData: () => Promise<any[]>;
+  onUpdateDishInHistory?: (date: string, mealType: string, dishIndex: number, dish: any) => Promise<void>;
+  onDeleteDishInHistory?: (date: string, mealType: string, dishIndex: number) => Promise<void>;
 }
 
 export function DashboardView({
@@ -19,6 +21,8 @@ export function DashboardView({
   setEndDate,
   validateDateRange,
   getHistoricalData,
+  onUpdateDishInHistory,
+  onDeleteDishInHistory,
 }: DashboardViewProps) {
   const [dateError, setDateError] = useState('');
   const [data, setData] = useState<any[]>([]);
@@ -103,6 +107,20 @@ export function DashboardView({
   Object.keys(mealAverages).forEach(meal => {
     mealAverages[meal] = data.length > 0 ? Math.round(mealAverages[meal] / data.length) : 0;
   });
+
+  const handleEditDish = async (date: string, mealType: string, dishIndex: number, updatedDish: any) => {
+    if (onUpdateDishInHistory) {
+      await onUpdateDishInHistory(date, mealType, dishIndex, updatedDish);
+      loadData(); // Reload data after update
+    }
+  };
+
+  const handleDeleteDish = async (date: string, mealType: string, dishIndex: number) => {
+    if (onDeleteDishInHistory) {
+      await onDeleteDishInHistory(date, mealType, dishIndex);
+      loadData(); // Reload data after delete
+    }
+  };
 
   if (loading) {
     return (
@@ -191,6 +209,8 @@ export function DashboardView({
                 date={dateLabel} 
                 meals={day.meals} 
                 totalCalories={dayTotal}
+                onEditDish={onUpdateDishInHistory ? handleEditDish : undefined}
+                onDeleteDish={onDeleteDishInHistory ? handleDeleteDish : undefined}
               />
             );
           })

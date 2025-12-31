@@ -701,6 +701,9 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
+.bg-white\/20 {
+  background-color: rgb(255 255 255 / 0.2);
+}
 .bg-gradient-to-b {
   background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
 }
@@ -731,6 +734,9 @@ video {
 .to-emerald-500 {
   --tw-gradient-to: #10b981 var(--tw-gradient-to-position);
 }
+.p-1 {
+  padding: 0.25rem;
+}
 .p-2 {
   padding: 0.5rem;
 }
@@ -739,6 +745,10 @@ video {
 }
 .p-4 {
   padding: 1rem;
+}
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 .px-3 {
   padding-left: 0.75rem;
@@ -813,6 +823,9 @@ video {
 }
 .font-bold {
   font-weight: 700;
+}
+.font-medium {
+  font-weight: 500;
 }
 .font-semibold {
   font-weight: 600;
@@ -915,6 +928,9 @@ video {
 .hover\:bg-teal-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(13 148 136 / var(--tw-bg-opacity, 1));
+}
+.hover\:bg-white\/30:hover {
+  background-color: rgb(255 255 255 / 0.3);
 }
 .hover\:opacity-90:hover {
   opacity: 0.9;
