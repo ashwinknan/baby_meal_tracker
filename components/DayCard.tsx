@@ -44,6 +44,13 @@ export function DayCard({ date, meals, totalCalories, onEditDish, onDeleteDish }
     }
   };
 
+  // Sort meals by meal number
+  const sortedMealEntries = Object.entries(meals).sort((a, b) => {
+    const numA = parseInt(a[0].replace('meal', ''));
+    const numB = parseInt(b[0].replace('meal', ''));
+    return numA - numB;
+  });
+
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden">
       {/* Day Header */}
@@ -52,13 +59,13 @@ export function DayCard({ date, meals, totalCalories, onEditDish, onDeleteDish }
         className="w-full px-4 py-3 bg-gradient-to-r from-teal-500 to-emerald-500 text-white flex justify-between items-center transition-opacity hover:opacity-90"
       >
         <span className="font-bold text-lg">{date}</span>
-        <span className="font-bold text-lg">{totalCalories} cal</span>
+        <span className="font-bold text-lg">{totalCalories > 0 ? `${totalCalories} cal` : '-'}</span>
       </button>
 
       {/* Expanded Content */}
       {expanded && (
         <div className="p-4 space-y-3">
-          {Object.entries(meals).map(([mealType, meal]: [string, any]) => {
+          {sortedMealEntries.map(([mealType, meal]: [string, any]) => {
             const mealCalories = meal.dishes.reduce((sum: number, dish: any) => sum + dish.calories, 0);
             
             return (
@@ -68,7 +75,9 @@ export function DayCard({ date, meals, totalCalories, onEditDish, onDeleteDish }
                     {mealIcons[mealType]} {mealNames[mealType]}
                     <span className="text-sm text-gray-500 ml-2">{meal.time}</span>
                   </h3>
-                  <span className="font-bold text-teal-600">{mealCalories} cal</span>
+                  <span className="font-bold text-teal-600">
+                    {mealCalories > 0 ? `${mealCalories} cal` : '-'}
+                  </span>
                 </div>
                 <div className="space-y-1">
                   {meal.dishes.map((dish: any, idx: number) => {
@@ -124,7 +133,9 @@ export function DayCard({ date, meals, totalCalories, onEditDish, onDeleteDish }
                       <div key={idx} className="flex justify-between text-sm bg-teal-50 p-2 rounded items-center">
                         <div className="flex-1">
                           <span className="text-gray-700 font-medium">{dish.name}</span>
-                          <div className="text-xs text-gray-500">{dish.grams}g • <strong className="text-teal-600">{dish.calories} cal</strong></div>
+                          <div className="text-xs text-gray-500">
+                            {dish.grams > 0 ? `${dish.grams}g` : '-'} • <strong className="text-teal-600">{dish.calories > 0 ? `${dish.calories} cal` : '-'}</strong>
+                          </div>
                         </div>
                         {(onEditDish || onDeleteDish) && (
                           <div className="flex gap-1 ml-2">

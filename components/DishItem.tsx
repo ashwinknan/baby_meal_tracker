@@ -83,9 +83,15 @@ export function DishItem({ dish, isEditing, onEdit, onSave, onDelete, onCancel }
         </div>
       </div>
       <div className="flex justify-between text-sm">
-        <span className="text-gray-600">Before: <strong>{dish.before}g</strong></span>
-        <span className="text-gray-600">After: <strong>{dish.after}g</strong></span>
-        <span className="text-teal-600 font-bold">Ate: {consumed}g</span>
+        <span className="text-gray-600">
+          Before: <strong>{dish.before > 0 ? `${dish.before}g` : '-'}</strong>
+        </span>
+        <span className="text-gray-600">
+          After: <strong>{dish.after > 0 ? `${dish.after}g` : '-'}</strong>
+        </span>
+        <span className="text-teal-600 font-bold">
+          Ate: {consumed > 0 ? `${consumed}g` : '-'}
+        </span>
       </div>
     </div>
   );

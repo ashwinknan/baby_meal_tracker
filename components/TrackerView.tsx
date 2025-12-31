@@ -46,9 +46,16 @@ export function TrackerView({
   setEditingDish,
   dishDatabase = []
 }: TrackerViewProps) {
+  // Sort meals by meal number (meal1, meal2, meal3, meal4)
+  const sortedMealEntries = Object.entries(meals).sort((a, b) => {
+    const numA = parseInt(a[0].replace('meal', ''));
+    const numB = parseInt(b[0].replace('meal', ''));
+    return numA - numB;
+  });
+
   return (
     <div className="max-w-2xl mx-auto px-4 py-4 space-y-4">
-      {Object.entries(meals).map(([mealType, mealData]) => (
+      {sortedMealEntries.map(([mealType, mealData]) => (
         <MealCard
           key={mealType}
           mealType={mealType}
